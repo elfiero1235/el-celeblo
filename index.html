@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Textil Chiapino · Máquinas de coser y service en Paraná</title>
+<meta name="description" content="Máquinas de coser industriales y familiares, hilos, cortadoras y servicio técnico en José Ruperto Pérez 282, Paraná. Respaldo oficial Brother y Singer.">
+<script>
+  // la cortina de entrada sale una sola vez por sesión
+  document.documentElement.classList.add('js');
+  try {
+    if (!sessionStorage.getItem('chiapino:intro') && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('intro-on');
+      sessionStorage.setItem('chiapino:intro', '1');
+    }
+  } catch {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/silverman-overlock.jpg">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l3 6.5 7 .8-5.2 4.8 1.4 7L12 17.6 5.8 21l1.4-7L2 9.3l7-.8z"/></symbol>
+  <symbol id="tick" viewBox="0 0 24 24"><path d="M4 13l5 5L20 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="arrow" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></symbol>
+</svg>
+
+<div class="intro-curtain" aria-hidden="true"><span class="logo"><span><i>Textil</i></span><b><i>CHIAPINO</i></b></span></div>
+
+<header class="site-nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="index.html" aria-label="Textil Chiapino, inicio"><span>Textil</span><b>CHIAPINO</b></a>
+    <nav aria-label="Principal">
+      <ul class="nav-links" id="menu">
+        <li><a href="index.html" aria-current="page">Inicio</a></li>
+        <li><a href="catalogo.html">Catálogo y stock</a></li>
+        <li><a href="servicio-tecnico.html">Servicio técnico</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <a class="btn sm nav-cta" href="https://wa.me/5493434533545?text=Hola!%20Quiero%20hacer%20una%20consulta" target="_blank" rel="noopener">Consultar</a>
+    <button class="menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-word" aria-hidden="true"><span>CHIAPINO</span><span>CHIAPINO</span><span>CHIAPINO</span><span>CHIAPINO</span></div>
+    <div class="wrap hero-grid">
+      <div>
+        <h1>
+          <span class="ln" style="--l:0"><span>Todo para coser,</span></span>
+          <span class="ln hl" style="--l:1"><span>y quien te la</span></span>
+          <span class="ln hl" style="--l:2"><span>arregle.</span></span>
+        </h1>
+        <p class="lead enter" style="--l:3">Máquinas industriales y familiares, hilos y cortadoras, con asesoramiento y respaldo oficial Brother y Singer. Y si tu máquina falla, la reparamos en nuestro taller.</p>
+        <div class="btn-row enter" style="--l:4">
+          <a class="btn" href="catalogo.html">Ver qué hay en stock <svg width="18" height="18" aria-hidden="true"><use href="#arrow"/></svg></a>
+          <a class="btn line" href="servicio-tecnico.html">Llevar mi máquina al service</a>
+        </div>
+        <div class="hero-info enter" style="--l:5">
+          <span class="open" data-open><i></i><span>Horario</span></span>
+          <a href="https://www.google.com/maps/search/?api=1&query=Jos%C3%A9+Ruperto+P%C3%A9rez+282+Paran%C3%A1" target="_blank" rel="noopener">José Ruperto Pérez 282</a>
+          <span>Lun a vie 9–18 · Sáb 9–12</span>
+        </div>
+      </div>
+
+      <div class="deck" data-deck>
+        <div class="deck-tilt">
+          <figure class="deck-card" data-id="silverman-overlock-gt917d"><img decoding="async" src="img/silverman-overlock.jpg" alt="Overlock industrial Silverman SM-GT917D-4H" width="864" height="600"></figure>
+          <figure class="deck-card" data-id="lumina-milano-color"><img decoding="async" src="img/lumina-milano.jpg" alt="Máquina familiar Lumina Milano Color con sus accesorios" width="683" height="865"></figure>
+          <figure class="deck-card" data-id="brother-bm3850"><img decoding="async" src="img/brother-bm3850.jpg" alt="Brother BM3850 con mesa extensora" width="855" height="531"></figure>
+          <figure class="deck-card" data-id="buona-veneto"><img decoding="async" src="img/buona-veneto.jpg" alt="Máquina familiar Buona Veneto, blanca y rosa" width="410" height="300"></figure>
+          <figure class="deck-card" data-id="lumina-verona"><img decoding="async" src="img/lumina-verona.jpg" alt="Cortadora de telas Lumina Verona" width="653" height="726"></figure>
+        </div>
+        <div class="deck-sticker" aria-hidden="true">
+          <svg viewBox="0 0 100 100"><defs><path id="ring" d="M50 50m-38 0a38 38 0 1 1 76 0a38 38 0 1 1-76 0"/></defs><text><textPath href="#ring">respaldo oficial · respaldo oficial ·</textPath></text></svg>
+          <span>Brother<br>&amp; Singer</span>
+        </div>
+        <div class="deck-dots" role="group" aria-label="Elegir foto"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-label="Marcas: Brother, Singer, Silverman, Lumina, Buona, Shanggong">
+    <div class="marquee-track" aria-hidden="true">
+      <span>Brother</span><span>Singer</span><span>Silverman</span><span>Lumina</span><span>Buona</span><span>Shanggong</span>
+      <span>Brother</span><span>Singer</span><span>Silverman</span><span>Lumina</span><span>Buona</span><span>Shanggong</span>
+    </div>
+  </div>
+
+  <section class="vitrina" data-vitrina>
+    <div class="vitrina-sticky">
+      <div class="wrap vitrina-head">
+        <h2 class="sec-title rise">Así está hoy la vidriera</h2>
+        <div class="vitrina-progress" aria-hidden="true"><i></i></div>
+      </div>
+      <div class="vitrina-track" data-track></div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:clamp(24px,4vw,48px)">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title rise">Qué vas a encontrar</h2>
+        <p class="rise" style="--d:120">El stock se actualiza desde el local: antes de venir, fijate si lo que buscás está disponible.</p>
+      </div>
+      <div class="cats">
+        <a class="cat rise" href="catalogo.html?cat=industriales"><h3>Máquinas industriales</h3><p>Rectas, overlock, collareta, ojaladoras, zigzag y pretinadoras.</p><span class="count" data-cat-count="industriales"></span></a>
+        <a class="cat rise" style="--d:90" href="catalogo.html?cat=familiares"><h3>Máquinas familiares</h3><p>Brother, Singer, Lumina y Buona para coser en casa.</p><span class="count" data-cat-count="familiares"></span></a>
+        <a class="cat rise" style="--d:180" href="catalogo.html?cat=hilos"><h3>Hilos</h3><p>Hilos de costura y de bordado en varios colores.</p><span class="count" data-cat-count="hilos"></span></a>
+        <a class="cat rise" style="--d:270" href="catalogo.html?cat=cortadoras"><h3>Cortadoras</h3><p>Cortadoras de tela para taller y producción.</p><span class="count" data-cat-count="cortadoras"></span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section service">
+    <svg class="service-gear" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="78" fill="none" stroke="currentColor" stroke-width="30" stroke-dasharray="22 18.8"/><circle cx="100" cy="100" r="62" fill="currentColor"/><circle cx="100" cy="100" r="24" fill="var(--red)"/></svg>
+    <div class="wrap grid">
+      <h2 class="rise">Service y reparación de máquinas</h2>
+      <div>
+        <p class="rise" style="--d:100">Familiares e industriales. Te decimos con honestidad si la máquina necesita arreglo o sólo un service.</p>
+        <ul class="checks rise" style="--d:200">
+          <li><svg class="tick" aria-hidden="true"><use href="#tick"/></svg>Diagnóstico y presupuesto antes de reparar</li>
+          <li><svg class="tick" aria-hidden="true"><use href="#tick"/></svg>Service de mantenimiento y lubricación</li>
+          <li><svg class="tick" aria-hidden="true"><use href="#tick"/></svg>Repuestos y ajustes</li>
+        </ul>
+        <div class="btn-row rise" style="--d:300;margin-top:28px"><a class="btn white" href="servicio-tecnico.html">Cómo funciona <svg width="18" height="18" aria-hidden="true"><use href="#arrow"/></svg></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reseñas reales de Google Maps (4,7 con 137 reseñas) -->
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="sec-title rise">4,7 en Google, con 137 reseñas</h2>
+        <p class="rise" style="--d:120">Lo que dicen quienes ya nos trajeron su máquina.</p>
+      </div>
+      <div class="quotes">
+        <figure class="quote rise">
+          <div class="stars" role="img" aria-label="5 de 5 estrellas"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></div>
+          <blockquote>Excelente atención y servicio. Siempre llevo mi máquina a hacer un service, son muy honestos en las reparaciones. Recomiendo 100%.</blockquote>
+          <figcaption><cite>Ana Claudia Eyssartier<span>Google</span></cite></figcaption>
+        </figure>
+        <figure class="quote rise" style="--d:120">
+          <div class="stars" role="img" aria-label="5 de 5 estrellas"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></div>
+          <blockquote>Siempre y como hace años la misma responsabilidad y honestidad con sus clientes.</blockquote>
+          <figcaption><cite>Maria Cristina Lopez<span>Google</span></cite></figcaption>
+        </figure>
+        <figure class="quote rise" style="--d:240">
+          <div class="stars" role="img" aria-label="5 de 5 estrellas"><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg><svg><use href="#star"/></svg></div>
+          <blockquote>Excelente atención y muy rápidos para la reparación.</blockquote>
+          <figcaption><cite>Francisco Volonté<span>Google</span></cite></figcaption>
+        </figure>
+      </div>
+      <p class="note">¿Ya nos visitaste? <a href="https://www.google.com/maps/search/?api=1&query=Textil+Chiapino+Paran%C3%A1" target="_blank" rel="noopener">Dejanos tu reseña en Google</a></p>
+    </div>
+  </section>
+
+  <section style="padding-bottom:0">
+    <div class="wrap">
+      <div class="cta rise">
+        <h2>¿Buscás una máquina en particular?</h2>
+        <div>
+          <p>Escribinos y te confirmamos stock, precio y formas de pago.</p>
+          <a class="btn white" href="https://wa.me/5493434533545?text=Hola!%20Quiero%20consultar%20por%20una%20m%C3%A1quina" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="index.html" aria-label="Textil Chiapino, inicio"><span>Textil</span><b>CHIAPINO</b></a>
+        <p style="margin-top:14px;max-width:24em">Máquinas de coser, insumos y servicio técnico en Paraná.</p>
+      </div>
+      <div><h3>Sitio</h3><ul><li><a href="catalogo.html">Catálogo y stock</a></li><li><a href="servicio-tecnico.html">Servicio técnico</a></li><li><a href="contacto.html">Contacto</a></li><li><a href="https://chiapinotextil.mitiendanube.com/" target="_blank" rel="noopener">Tienda online</a></li></ul></div>
+      <div><h3>Contacto</h3><ul><li><a href="https://www.google.com/maps/search/?api=1&query=Jos%C3%A9+Ruperto+P%C3%A9rez+282+Paran%C3%A1" target="_blank" rel="noopener">José Ruperto Pérez 282, Paraná</a></li><li><a href="tel:03434241683">0343 424-1683</a></li><li><a href="https://www.instagram.com/textilchiapino" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.facebook.com/textilchiapinoparana" target="_blank" rel="noopener">Facebook</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© <span data-year></span> Textil Chiapino</span><span>Paraná, Entre Ríos</span></div>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/5493434533545?text=Hola!%20Quiero%20hacer%20una%20consulta" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg width="28" height="28"><use href="#wa"/></svg></a>
+
+<script src="js/store.js"></script>
+<script src="js/main.js"></script>
+<script src="js/home.js"></script>
+</body>
+</html>

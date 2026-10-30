@@ -1,0 +1,139 @@
+/* Panel de stock: mismo sistema visual que el sitio, pensado para usar rápido desde el mostrador o el celular */
+.admin{padding-bottom:80px}
+.admin [hidden]{display:none!important}
+.adm-bar{background:var(--ink);color:var(--white);position:sticky;top:0;z-index:50}
+.adm-bar-inner{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:64px}
+.adm-title{font-family:var(--display);font-weight:800;font-size:1.4rem;font-stretch:78%}
+.adm-bar .btn.line{color:var(--white);border-color:rgba(255,255,255,.5)}
+.adm-bar .btn.line::before{background:var(--white)}
+.adm-bar .btn.line:hover{color:var(--ink)}
+
+.adm-user{display:flex;gap:8px}
+
+/* ingreso y contraseña */
+.auth{min-height:calc(100dvh - 64px);display:grid;place-items:center;padding:24px var(--gutter)}
+.auth-card{width:min(420px,100%);display:grid;gap:14px;padding:clamp(24px,5vw,36px);background:var(--white);border:1px solid var(--line);border-radius:26px;box-shadow:0 30px 60px -40px rgba(16,26,51,.5);animation:dlg-in .5s var(--ease)}
+.auth-card h1{font-size:2.4rem}
+.auth-card p{color:var(--ink-soft)}
+.auth-card label{display:grid;gap:6px;font-weight:600;font-size:.9rem}
+.auth-card input{font:inherit;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--white);color:var(--ink)}
+.auth-card small{color:var(--ink-soft);margin-top:-8px}
+.auth-card .btn{width:100%}
+.btn:disabled{opacity:.6;pointer-events:none}
+.link-btn{all:unset;justify-self:center;cursor:pointer;font-weight:600;font-size:.92rem;color:var(--blue);text-decoration:underline;text-underline-offset:4px}
+.link-btn:focus-visible{outline:3px solid var(--red);outline-offset:3px;border-radius:4px}
+
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:28px 0 20px}
+.summary button{all:unset;box-sizing:border-box;cursor:pointer;background:var(--white);border:1.5px solid var(--line);border-radius:var(--radius);padding:18px 20px;transition:border-color .25s,transform .4s var(--ease)}
+.summary button:hover{transform:translateY(-2px);border-color:var(--ink)}
+.summary button:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.summary button[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.summary b{display:block;font-family:var(--display);font-size:2.4rem;line-height:1;font-stretch:80%;font-variant-numeric:tabular-nums}
+.summary span{font-weight:600;font-size:.9rem;color:var(--ink-soft)}
+.summary .hay b{color:var(--ok)}
+.summary .pocas b{color:var(--warn)}
+.summary .sin b{color:var(--no)}
+
+.adm-tools{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.adm-tools .search{min-width:0;flex:1 1 180px}
+.adm-tools .btn{margin-left:auto}
+
+.table-wrap{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);overflow:auto}
+.stock{width:100%;border-collapse:collapse;font-size:.95rem}
+.stock th{text-align:left;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);padding:14px 16px;border-bottom:1px solid var(--line);white-space:nowrap}
+.stock td{padding:10px 16px;border-bottom:1px solid var(--line);vertical-align:middle}
+.stock tr:last-child td{border-bottom:0}
+.stock tr.is-sin{background:#fbf3f3}
+.name-in{display:flex;align-items:center;gap:12px;min-width:220px}
+.name-in b{display:block;line-height:1.25}
+.name-in small{color:var(--ink-soft)}
+.thumb-sm{flex:none;width:52px;height:52px;border-radius:12px;overflow:hidden;background:var(--paper-2);display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:1.3rem;color:var(--blue)}
+.thumb-sm img{width:100%;height:100%;object-fit:cover}
+.stock .num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.stock .empty{padding:40px 16px}
+
+.stepper{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;background:var(--paper)}
+.stepper button{width:42px;height:42px;border:0;background:none;font:inherit;font-size:1.25rem;font-weight:700;color:var(--ink);cursor:pointer;transition:background .2s}
+.stepper button:hover{background:var(--paper-2)}
+.stepper button:active{background:var(--ink);color:var(--white)}
+.stepper input{width:56px;height:42px;border:0;border-inline:1.5px solid var(--line);text-align:center;font:inherit;font-weight:700;font-variant-numeric:tabular-nums;background:var(--white);color:var(--ink);-moz-appearance:textfield}
+.stepper input::-webkit-inner-spin-button,.stepper input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.stepper.big button{width:52px;height:50px;font-size:1.5rem}
+.stepper.big input{width:72px;height:50px;font-size:1.15rem}
+
+.sw-wrap{display:inline-flex;align-items:center;gap:8px;min-height:44px;cursor:pointer;font-weight:600;font-size:.9rem}
+.sw-text{display:none}
+.sw{width:22px;height:22px;accent-color:var(--ink);cursor:pointer}
+.row-actions{display:flex;gap:6px;justify-content:flex-end}
+.icon-btn{min-height:38px;padding:6px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--white);font:inherit;font-weight:600;font-size:.85rem;color:var(--ink);cursor:pointer;transition:border-color .2s,color .2s}
+.icon-btn:hover{border-color:var(--ink)}
+.icon-btn.danger:hover{border-color:var(--no);color:var(--no)}
+
+.backup{margin-top:28px;padding:18px 20px;border:1.5px dashed var(--line);border-radius:var(--radius)}
+.backup summary{font-weight:700;cursor:pointer}
+.backup p{color:var(--ink-soft);margin:10px 0 14px;font-size:.95rem;max-width:60ch}
+
+/* formulario */
+.dlg{border:0;border-radius:26px;padding:clamp(20px,4vw,30px);width:min(620px,100% - 24px);max-height:calc(100dvh - 24px);background:var(--paper);color:var(--ink);margin:auto;overscroll-behavior:contain}
+.dlg::backdrop{background:rgba(16,26,51,.55);backdrop-filter:blur(3px)}
+.dlg[open]{animation:dlg-in .45s var(--ease)}
+@keyframes dlg-in{from{opacity:0;transform:translateY(16px) scale(.98)}}
+.dlg h2{font-size:2rem;margin-bottom:6px}
+.dlg form{display:grid;gap:14px}
+.dlg label,.stock-field{display:grid;gap:6px;font-weight:600;font-size:.9rem;align-content:start}
+.dlg label small{font-weight:500;color:var(--ink-soft)}
+.dlg input:not([type=file]):not([type=number]),.dlg select,.dlg textarea{font:inherit;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--white);color:var(--ink);width:100%}
+.dlg input::placeholder,.dlg textarea::placeholder{color:#6b7590}
+.dlg .two{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+.money{position:relative;display:block}
+.money > span{position:absolute;left:14px;top:50%;translate:0 -50%;font-weight:700;color:var(--ink-soft)}
+.dlg .money input[name=precio]{padding-left:32px}
+.dlg-actions{justify-content:flex-end;margin-top:6px;position:sticky;bottom:-30px;background:var(--paper);padding:10px 0 4px}
+.field-error{color:var(--no);font-size:.88rem;font-weight:600;margin-top:-8px}
+.field-error:empty{display:none}
+
+.photo-field{display:grid;gap:10px}
+.photo-drop{position:relative;aspect-ratio:16/10;border-radius:18px;overflow:hidden;background:var(--white);border:2px dashed var(--line);display:grid;place-items:center;transition:border-color .2s,background .2s}
+.photo-drop.over{border-color:var(--blue);background:#e6ecfb}
+.photo-drop img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:photo-in .5s var(--ease)}
+.photo-drop img[hidden]{display:none}
+@keyframes photo-in{from{opacity:0;transform:scale(1.04)}}
+.photo-empty{display:grid;justify-items:center;gap:4px;color:var(--ink-soft);font-weight:600;text-align:center}
+.photo-empty svg{color:var(--blue)}
+.photo-empty small{font-weight:500}
+.photo-busy{position:absolute;inset:0;display:grid;place-items:center;background:rgba(255,255,255,.85);font-weight:700}
+.photo-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+/* en el celular: sacar foto o galería; en la compu: elegir archivo */
+.only-touch{display:none}
+@media (pointer:coarse){
+  .only-touch{display:revert}
+  label.btn.only-touch{display:inline-flex}
+  .only-desk{display:none}
+}
+
+.toast{position:fixed;left:50%;bottom:24px;z-index:200;max-width:min(92vw,520px);transform:translate(-50%,20px);opacity:0;background:var(--ink);color:var(--white);padding:12px 20px;border-radius:16px;font-weight:600;font-size:.92rem;text-align:center;transition:opacity .3s,transform .4s var(--ease);pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.error{background:var(--no)}
+
+/* en el celular cada producto pasa a ser una tarjeta */
+@media (max-width:900px){
+  .summary{grid-template-columns:1fr 1fr}
+  .adm-tools .btn{margin-left:0;width:100%}
+  .table-wrap{background:none;border:0;overflow:visible}
+  .stock thead{display:none}
+  .stock,.stock tbody,.stock tr,.stock td{display:block}
+  .stock tr{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;display:grid;grid-template-columns:1fr auto;gap:10px 12px;align-items:center}
+  .stock tr.is-sin{background:#fbf3f3}
+  .stock td{padding:0;border:0}
+  .stock td.name{grid-column:1/-1}
+  .stock td.cat-col{display:none}
+  .sw-text{display:inline}
+  .stock td.row-cell{grid-column:1/-1}
+  .stock .empty{grid-column:1/-1;background:none}
+}
+@media (max-width:480px){
+  .dlg .two{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  .dlg[open],.photo-drop img,.auth-card{animation:none}
+}

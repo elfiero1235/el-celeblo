@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catálogo y stock · Textil Chiapino</title>
+<meta name="description" content="Fijate qué máquinas de coser, hilos y cortadoras tenemos en stock en el local de Paraná.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.3.5-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></symbol>
+</svg>
+
+<header class="site-nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="index.html" aria-label="Textil Chiapino, inicio"><span>Textil</span><b>CHIAPINO</b></a>
+    <nav aria-label="Principal">
+      <ul class="nav-links" id="menu">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="catalogo.html" aria-current="page">Catálogo y stock</a></li>
+        <li><a href="servicio-tecnico.html">Servicio técnico</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+    <a class="btn sm nav-cta" href="https://wa.me/5493434533545?text=Hola!%20Quiero%20hacer%20una%20consulta" target="_blank" rel="noopener">Consultar</a>
+    <button class="menu-btn" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+  <section class="page-head">
+    <div class="wrap">
+      <h1>Catálogo y stock</h1>
+      <p class="lead" style="margin-bottom:8px">Mirá qué tenemos disponible hoy. Si algo figura sin stock, escribinos y te avisamos cuando entre.</p>
+      <p class="updated" id="updated"></p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="toolbar">
+      <div class="chips" id="chips" role="group" aria-label="Filtrar por categoría"></div>
+      <div class="btn-row" style="align-items:center">
+        <label class="toggle"><input type="checkbox" id="soloStock"> Sólo con stock</label>
+        <input class="search" id="q" type="search" placeholder="Buscar máquina, marca…" aria-label="Buscar en el catálogo">
+      </div>
+    </div>
+    <p class="result-count" id="count" role="status"></p>
+    <div class="products" id="list"></div>
+  </div>
+</main>
+
+<dialog class="ficha" id="ficha" aria-labelledby="fichaTitle">
+  <div class="ficha-card">
+    <div class="ficha-img" id="fichaImg"></div>
+    <button class="ficha-close" type="button" aria-label="Cerrar ficha"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+    <span class="brand" id="fichaBrand"></span>
+    <h2 id="fichaTitle"></h2>
+    <p id="fichaDesc"></p>
+    <div class="ficha-row"><span class="price" id="fichaPrice"></span><span class="badge" id="fichaBadge"></span></div>
+    <a class="btn" id="fichaAsk" target="_blank" rel="noopener"></a>
+  </div>
+</dialog>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="index.html" aria-label="Textil Chiapino, inicio"><span>Textil</span><b>CHIAPINO</b></a>
+        <p style="margin-top:14px;max-width:24em">Máquinas de coser, insumos y servicio técnico en Paraná.</p>
+      </div>
+      <div><h3>Sitio</h3><ul><li><a href="catalogo.html">Catálogo y stock</a></li><li><a href="servicio-tecnico.html">Servicio técnico</a></li><li><a href="contacto.html">Contacto</a></li><li><a href="https://chiapinotextil.mitiendanube.com/" target="_blank" rel="noopener">Tienda online</a></li></ul></div>
+      <div><h3>Contacto</h3><ul><li><a href="https://www.google.com/maps/search/?api=1&query=Jos%C3%A9+Ruperto+P%C3%A9rez+282+Paran%C3%A1" target="_blank" rel="noopener">José Ruperto Pérez 282, Paraná</a></li><li><a href="tel:03434241683">0343 424-1683</a></li><li><a href="https://www.instagram.com/textilchiapino" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.facebook.com/textilchiapinoparana" target="_blank" rel="noopener">Facebook</a></li></ul></div>
+    </div>
+    <div class="foot-bottom"><span>© <span data-year></span> Textil Chiapino</span><span>Paraná, Entre Ríos</span></div>
+  </div>
+</footer>
+
+<a class="wa" href="https://wa.me/5493434533545?text=Hola!%20Quiero%20hacer%20una%20consulta" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg width="28" height="28"><use href="#wa"/></svg></a>
+
+<script src="js/store.js"></script>
+<script src="js/main.js"></script>
+<script src="js/catalogo.js"></script>
+</body>
+</html>

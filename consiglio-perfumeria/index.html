@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- el sitio es siempre claro, como pidió el cliente -->
+<meta name="color-scheme" content="only light">
+<meta name="theme-color" content="#faf8f4">
+<title>Consiglio Perfumerías · Santa Fe</title>
+<meta name="description" content="Fragancias, perfumes árabes, make up, tinturas, marroquinería y bijou. Aristóbulo del Valle 7895, Santa Fe. Tu perfumería de toda la vida.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="intro" aria-hidden="true">
+  <div class="intro__mark">
+    <span class="intro__word">CONSIGLIO</span>
+    <span class="intro__sub">perfumerías</span>
+  </div>
+</div>
+
+<div class="cursor-glow" aria-hidden="true"></div>
+
+<header class="nav">
+  <a href="#inicio" class="brand" aria-label="Consiglio Perfumerías, inicio">
+    <span class="brand__word">CONSIGLIO</span>
+    <span class="brand__sub">perfumerías</span>
+  </a>
+  <nav class="nav__links" aria-label="Principal">
+    <a href="#categorias">Categorías</a>
+    <a href="#tienda">Tienda</a>
+    <a href="#visitanos">Visitanos</a>
+  </nav>
+  <button class="cart-btn" type="button" aria-label="Abrir carrito">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+    <span class="cart-btn__count">0</span>
+  </button>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <canvas class="hero__mist" aria-hidden="true"></canvas>
+    <div class="hero__copy">
+      <p class="eyebrow reveal">Aristóbulo del Valle 7895 · Santa Fe</p>
+      <h1 class="hero__title">
+        <span class="line"><span>Tu perfumería</span></span>
+        <span class="line"><span><em>de toda la vida</em></span></span>
+      </h1>
+      <p class="hero__lead reveal">Fragancias, perfumes árabes, make up, tinturas, marroquinería y bijou. Elegí online y te lo mandamos, o vení a buscarlo a la esquina de siempre.</p>
+      <div class="hero__cta reveal">
+        <a href="#tienda" class="btn btn--gold">Ver la tienda</a>
+        <a href="https://wa.me/5493425697912" class="btn btn--ghost" target="_blank" rel="noopener">Consultanos por WhatsApp</a>
+      </div>
+    </div>
+
+    <div class="hero__stage" aria-hidden="true">
+      <div class="orbit orbit--1"></div>
+      <div class="orbit orbit--2"><span class="orbit__dot"></span></div>
+      <div class="notes">
+        <span style="--i:0">Vainilla</span>
+        <span style="--i:1">Ámbar</span>
+        <span style="--i:2">Oud</span>
+        <span style="--i:3">Jazmín</span>
+        <span style="--i:4">Bergamota</span>
+        <span style="--i:5">Pistacho</span>
+      </div>
+      <div class="bottle-wrap">
+        <svg class="bottle" viewBox="0 0 240 360">
+          <defs>
+            <linearGradient id="glass" x1="0" x2="1">
+              <stop offset="0" stop-color="#fff" stop-opacity=".22"/>
+              <stop offset=".45" stop-color="#fff" stop-opacity=".04"/>
+              <stop offset="1" stop-color="#fff" stop-opacity=".16"/>
+            </linearGradient>
+            <linearGradient id="juice" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#f3d79b"/>
+              <stop offset="1" stop-color="#b9823b"/>
+            </linearGradient>
+            <linearGradient id="cap" x1="0" x2="1">
+              <stop offset="0" stop-color="#7d6a45"/>
+              <stop offset=".35" stop-color="#f1dca6"/>
+              <stop offset=".6" stop-color="#c9a96a"/>
+              <stop offset="1" stop-color="#6f5c39"/>
+            </linearGradient>
+            <clipPath id="body-clip">
+              <rect x="30" y="120" width="180" height="220" rx="34"/>
+            </clipPath>
+          </defs>
+          <!-- atomizador -->
+          <rect class="bottle__nozzle" x="104" y="44" width="32" height="18" rx="4" fill="url(#cap)"/>
+          <rect x="92" y="60" width="56" height="44" rx="8" fill="url(#cap)"/>
+          <rect x="108" y="102" width="24" height="20" fill="#d9c08a" opacity=".7"/>
+          <!-- cuerpo -->
+          <g clip-path="url(#body-clip)">
+            <rect x="30" y="120" width="180" height="220" fill="#1a1512"/>
+            <g class="liquid">
+              <path class="wave wave--back" fill="#c9954b" opacity=".55"
+                d="M0 190 Q30 178 60 190 T120 190 T180 190 T240 190 T300 190 T360 190 T420 190 T480 190 V360 H0Z"/>
+              <path class="wave wave--front" fill="url(#juice)"
+                d="M0 196 Q30 208 60 196 T120 196 T180 196 T240 196 T300 196 T360 196 T420 196 T480 196 V360 H0Z"/>
+            </g>
+            <g class="bubbles" fill="#fff6dc">
+              <circle cx="70" cy="330" r="3"/>
+              <circle cx="120" cy="335" r="2"/>
+              <circle cx="160" cy="330" r="2.5"/>
+              <circle cx="95" cy="338" r="1.6"/>
+              <circle cx="180" cy="336" r="1.8"/>
+            </g>
+            <rect class="shine" x="-60" y="110" width="40" height="260" fill="#fff" opacity=".18" transform="skewX(-18)"/>
+          </g>
+          <rect x="30" y="120" width="180" height="220" rx="34" fill="url(#glass)" stroke="#e9d9b4" stroke-opacity=".55" stroke-width="2"/>
+          <!-- etiqueta -->
+          <g class="label">
+            <rect x="62" y="230" width="116" height="52" rx="4" fill="#0f0d0c" fill-opacity=".72" stroke="#c9a96a" stroke-opacity=".7"/>
+            <text x="120" y="256" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="17" letter-spacing="3" fill="#efe6d3">CONSIGLIO</text>
+            <text x="120" y="272" text-anchor="middle" font-family="Manrope, sans-serif" font-size="7" letter-spacing="3" fill="#c9a96a">PERFUMERÍAS</text>
+          </g>
+        </svg>
+        <div class="bottle-shadow"></div>
+      </div>
+    </div>
+
+    <a href="#categorias" class="scroll-hint" aria-label="Bajar"><span></span></a>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>Fragancias</span><i>✦</i><span>Perfumes árabes</span><i>✦</i><span>Make up</span><i>✦</i><span>Tinturas</span><i>✦</i><span>Marroquinería</span><i>✦</i><span>Bijou</span><i>✦</i><span>Body splash</span><i>✦</i>
+      <span>Fragancias</span><i>✦</i><span>Perfumes árabes</span><i>✦</i><span>Make up</span><i>✦</i><span>Tinturas</span><i>✦</i><span>Marroquinería</span><i>✦</i><span>Bijou</span><i>✦</i><span>Body splash</span><i>✦</i>
+    </div>
+  </div>
+
+  <!-- CATEGORÍAS -->
+  <section class="section" id="categorias">
+    <div class="section__head">
+      <p class="eyebrow reveal">Todo en un lugar</p>
+      <h2 class="reveal">Categorías</h2>
+    </div>
+    <!-- vidriera: cada categoría muestra sus productos reales, en abanico -->
+    <div class="cats">
+      <button class="cat cat--hero reveal" data-filter="fragancias" style="--tint:#f1e6cf">
+        <span class="cat__shelf">
+          <img src="img/productos/king-of-seduction.png" alt="" style="--r:-8deg;--x:-120%">
+          <img src="img/productos/cher.png" alt="" style="--r:9deg;--x:140%">
+          <img src="img/productos/lucy-anderson.png" alt="" style="--r:0deg;--x:0%">
+        </span>
+        <span class="cat__text"><span class="cat__name">Fragancias</span><span class="cat__hint">Nacionales e importadas</span></span>
+        <span class="cat__go"><span class="cat__count"></span><i aria-hidden="true">→</i></span>
+      </button>
+      <button class="cat cat--wide reveal" data-filter="arabes" style="--tint:#f3e4d0">
+        <span class="cat__shelf">
+          <img src="img/productos/asad.png" alt="" style="--r:-8deg;--x:-95%">
+          <img src="img/productos/erba-pura.png" alt="" style="--r:9deg;--x:150%">
+          <img src="img/productos/yara-candy.png" alt="" style="--r:0deg;--x:0%">
+        </span>
+        <span class="cat__text"><span class="cat__name">Perfumes árabes</span><span class="cat__hint">Yara, Asad, Erba Pura y más</span></span>
+        <span class="cat__go"><span class="cat__count"></span><i aria-hidden="true">→</i></span>
+      </button>
+      <button class="cat reveal" data-filter="splash" style="--tint:#f6e3e8">
+        <span class="cat__shelf">
+          <img src="img/productos/splash-yara.png" alt="" style="--r:-9deg;--x:-55%">
+          <img src="img/productos/love-spell.png" alt="" style="--r:6deg;--x:55%">
+        </span>
+        <span class="cat__text"><span class="cat__name">Body splash</span><span class="cat__hint">Frescos y dulces</span></span>
+        <span class="cat__go"><span class="cat__count"></span><i aria-hidden="true">→</i></span>
+      </button>
+      <button class="cat reveal" data-filter="makeup" style="--tint:#f5e4e1">
+        <span class="cat__shelf"><img src="img/productos/idi.png" alt="" style="--r:-4deg;--x:0%"></span>
+        <span class="cat__text"><span class="cat__name">Make up</span><span class="cat__hint">Labiales y más</span></span>
+        <span class="cat__go"><span class="cat__count"></span><i aria-hidden="true">→</i></span>
+      </button>
+      <button class="cat cat--wide reveal" data-filter="tinturas" style="--tint:#f1e5db">
+        <span class="cat__shelf"><img src="img/productos/tintura-cherry.jpg" alt="" style="--r:-5deg;--x:0%"></span>
+        <span class="cat__text"><span class="cat__name">Tinturas</span><span class="cat__hint">Toda la carta de colores</span></span>
+        <span class="cat__go"><span class="cat__count"></span><i aria-hidden="true">→</i></span>
+      </button>
+      <button class="cat cat--wide reveal" data-filter="marroquineria" style="--tint:#eceae5">
+        <span class="cat__shelf">
+          <img src="img/productos/bolso-beige.png" alt="" style="--r:-8deg;--x:-95%">
+          <img src="img/productos/cartera-roja.png" alt="" style="--r:8deg;--x:110%">
+          <img src="img/productos/bolso-camel.png" alt="" style="--r:0deg;--x:0%">
+        </span>
+        <span class="cat__text"><span class="cat__name">Carteras y bijou</span><span class="cat__hint">Bolsos, carteras, accesorios</span></span>
+        <span class="cat__go"><span class="cat__count"></span><i aria-hidden="true">→</i></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- TIENDA -->
+  <section class="section section--shop" id="tienda">
+    <div class="section__head">
+      <p class="eyebrow reveal">Precios de nuestras últimas publicaciones</p>
+      <h2 class="reveal">Tienda</h2>
+    </div>
+    <div class="chips reveal" role="tablist" aria-label="Filtrar productos">
+      <button class="chip is-active" data-filter="destacados">Destacados</button>
+      <button class="chip" data-filter="fragancias">Fragancias</button>
+      <button class="chip" data-filter="arabes">Árabes</button>
+      <button class="chip" data-filter="splash">Body splash</button>
+      <button class="chip" data-filter="makeup">Make up</button>
+      <button class="chip" data-filter="tinturas">Tinturas</button>
+      <button class="chip" data-filter="marroquineria">Carteras y bijou</button>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p class="swipe-hint">Deslizá para ver más <i aria-hidden="true">→</i></p>
+  </section>
+
+  <!-- HISTORIA -->
+  <section class="section story">
+    <p class="story__quote reveal-words">Seguimos siendo tu lugar de confianza, ahora con una cara renovada. Gracias por acompañarnos siempre.</p>
+    <div class="stats">
+      <div class="stat reveal"><span class="stat__n" data-count="9000">0</span><span class="stat__l">personas nos siguen</span></div>
+      <div class="stat reveal"><span class="stat__n" data-count="6" data-suffix="">0</span><span class="stat__l">rubros en un solo local</span></div>
+      <div class="stat reveal"><span class="stat__n" data-count="1" data-suffix=" esquina">0</span><span class="stat__l">la de siempre, en Aristóbulo</span></div>
+    </div>
+  </section>
+
+  <!-- EL LOCAL -->
+  <section class="local" aria-label="El local">
+    <div class="local__bg">
+      <img class="local__blur" src="img/esquina.jpg" alt="" aria-hidden="true" loading="lazy">
+      <img class="local__img" src="img/esquina.jpg" alt="La esquina de Consiglio Perfumerías al atardecer" loading="lazy">
+    </div>
+    <div class="local__copy">
+      <p class="eyebrow reveal">Desde siempre en el barrio</p>
+      <p class="local__caption reveal">La esquina más linda,<br><em>Aristóbulo del Valle 7895</em></p>
+      <a href="#visitanos" class="btn btn--ghost reveal">Cómo llegar</a>
+    </div>
+  </section>
+
+  <!-- VISITANOS -->
+  <section class="section visit" id="visitanos">
+    <div class="visit__info">
+      <p class="eyebrow reveal">Te esperamos</p>
+      <h2 class="reveal">Visitanos</h2>
+      <ul class="visit__list">
+        <li class="reveal"><strong>Dirección</strong>Av. Aristóbulo del Valle 7895 (la esquina), Santa Fe</li>
+        <li class="reveal"><strong>WhatsApp</strong><a href="https://wa.me/5493425697912" target="_blank" rel="noopener">+54 9 342 569-7912</a></li>
+        <li class="reveal"><strong>Envíos</strong>Hacé tu pedido por la web o por WhatsApp y coordinamos el envío.</li>
+        <li class="reveal"><strong>Instagram</strong><a href="https://www.instagram.com/consiglioperfumerias/" target="_blank" rel="noopener">@consiglioperfumerias</a></li>
+      </ul>
+    </div>
+    <div class="visit__map reveal">
+      <iframe title="Mapa de Consiglio Perfumerías" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=Aristobulo%20del%20Valle%207895%2C%20Santa%20Fe%2C%20Argentina&output=embed"></iframe>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__brand">
+    <span class="brand__word">CONSIGLIO</span>
+    <span class="brand__sub">perfumerías</span>
+  </div>
+  <nav class="footer__legal" aria-label="Legales">
+    <a href="#">Términos y condiciones</a>
+    <a href="#">Política de privacidad</a>
+    <a href="#">Envíos y devoluciones</a>
+    <a href="#">Botón de arrepentimiento</a>
+    <a href="https://www.argentina.gob.ar/produccion/defensadelconsumidor/formulario" target="_blank" rel="noopener">Defensa del consumidor</a>
+  </nav>
+  <p class="footer__small">Precios en pesos argentinos, con impuestos incluidos. Sujetos a disponibilidad de stock.</p>
+</footer>
+
+<a class="wa-float" href="https://wa.me/5493425697912" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+</a>
+
+<!-- CARRITO -->
+<div class="cart" aria-hidden="true">
+  <div class="cart__backdrop"></div>
+  <aside class="cart__panel" aria-label="Carrito">
+    <div class="cart__head">
+      <h3>Tu pedido</h3>
+      <button class="cart__close" type="button" aria-label="Cerrar carrito">✕</button>
+    </div>
+    <ul class="cart__items"></ul>
+    <p class="cart__empty">Todavía no agregaste nada.</p>
+    <div class="cart__foot">
+      <div class="cart__total"><span>Total</span><strong>$0</strong></div>
+      <button class="btn btn--gold btn--full" id="checkout">Enviar pedido por WhatsApp</button>
+      <p class="cart__note">Te confirmamos stock, forma de pago y envío por WhatsApp.</p>
+    </div>
+  </aside>
+</div>
+
+<!-- FICHA DE PRODUCTO -->
+<div class="pdp" aria-hidden="true">
+  <div class="pdp__backdrop"></div>
+  <article class="pdp__panel" role="dialog" aria-modal="true" aria-label="Detalle del producto"></article>
+</div>
+
+<div class="toast" role="status" aria-live="polite"></div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module" src="perfume3d.js"></script>
+<script src="productos.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

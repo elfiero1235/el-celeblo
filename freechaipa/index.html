@@ -1,0 +1,327 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>#freechaipa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=Neonderthaw&display=swap" rel="stylesheet">
+<style>
+  :root { --off: 62, 64, 70; --on: 255, 240, 220; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; background: #000; overflow: hidden; cursor: crosshair; }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  #stone { image-rendering: auto; opacity: 0; transition: opacity 2.4s ease 0.4s; }
+  #stone.ready { opacity: 1; }
+  #dust { pointer-events: none; mix-blend-mode: screen; }
+  .neon {
+    position: fixed; left: 50%; top: 69%;
+    transform: translate(-50%, -50%);
+    font-family: 'Neonderthaw', cursive;
+    font-size: clamp(3rem, 15vw, 15rem);
+    line-height: 1; white-space: nowrap; letter-spacing: .01em;
+    pointer-events: none; user-select: none;
+  }
+  .neon span { display: inline-block; color: rgb(var(--off)); }
+  .neon .hash { margin-right: .1em; }
+  .neon::before {
+    content: ''; position: absolute; inset: -.02em -.2em -.1em -.2em; z-index: -1; border-radius: .06em;
+    background: linear-gradient(160deg, rgba(20,21,24,.55), rgba(6,6,8,.7));
+    border: 1px solid rgba(255,255,255,.07);
+    box-shadow: 0 .06em .18em rgba(0,0,0,.8), inset 0 0 .12em rgba(255,255,255,.04);
+  }
+  .neon::after {
+    content: ''; position: absolute; inset: -.02em -.2em -.1em -.2em; z-index: -1; pointer-events: none;
+    --b: radial-gradient(circle, #cfd3d8 0 18%, #5b5f66 40%, #1a1b1e 62%, transparent 66%);
+    background:
+      var(--b) .05em .05em / .05em .05em no-repeat,
+      var(--b) calc(100% - .05em) .05em / .05em .05em no-repeat,
+      var(--b) .05em calc(100% - .05em) / .05em .05em no-repeat,
+      var(--b) calc(100% - .05em) calc(100% - .05em) / .05em .05em no-repeat;
+    background-position: .03em .03em, calc(100% - .03em) .03em, .03em calc(100% - .03em), calc(100% - .03em) calc(100% - .03em);
+  }
+  .hint {    position: fixed; left: 0; right: 0; bottom: 22px; text-align: center;
+    font: 500 12px/1 system-ui, sans-serif; letter-spacing: .28em; text-transform: uppercase;
+    color: rgba(255,255,255,.28); opacity: 0; transition: opacity 1.6s ease; pointer-events: none;
+  }
+  .hint.show { opacity: 1; }
+</style>
+</head>
+<body>
+<canvas id="stone"></canvas>
+<canvas id="dust"></canvas>
+<h1 class="neon" id="neon" aria-label="#freechaipa"></h1>
+<div class="hint" id="hint">mové el mouse para alumbrar la piedra · click para sacudir la luz</div>
+
+<script>
+(() => {
+  const TEXT_CARVED = '#LIBERTADALCHAIPA';
+  const NEON = '#freechaipa';
+
+  const stone = document.getElementById('stone');
+  const sctx = stone.getContext('2d');
+  const dust = document.getElementById('dust');
+  const dctx = dust.getContext('2d');
+  const neonEl = document.getElementById('neon');
+  const hint = document.getElementById('hint');
+
+  /* ---------- neon letters ---------- */
+  const letters = [...NEON].map((ch, i) => {
+    const s = document.createElement('span');
+    s.textContent = ch;
+    if (i === 0) s.className = 'hash';
+    neonEl.appendChild(s);
+    return s;
+  });
+
+  /* ---------- flicker model (a tube that stutters on, then misbehaves) ---------- */
+  class Flick {
+    constructor(start, jit = 1, floor = 0.08) {
+      this.v = 0; this.tg = 0; this.rem = start; this.jit = jit; this.floor = floor;
+      this.q = [];
+      this.burst(3 + (Math.random() * 4 | 0), true);
+    }
+    burst(n, ignite = false) {
+      for (let i = 0; i < n; i++) {
+        this.q.push([1, 0.03 + Math.random() * 0.1]);
+        const dim = Math.random() < 0.5 ? this.floor : 0.3 + Math.random() * 0.2;
+        this.q.push([dim, 0.025 + Math.random() * (ignite ? Math.max(0.03, 0.22 - i * 0.03) : 0.12)]);
+      }
+      this.q.push([1, (1.2 + Math.random() * 5) / this.jit]);
+    }
+    kick() { this.q.length = 0; this.burst(4 + (Math.random() * 3 | 0)); this.rem = 0; }
+    update(dt) {
+      this.rem -= dt;
+      while (this.rem <= 0) {
+        if (!this.q.length) this.burst(1 + (Math.random() * 3 | 0));
+        const [tg, d] = this.q.shift();
+        this.tg = tg; this.rem += d;
+      }
+      this.v += (this.tg - this.v) * Math.min(1, dt * 34);
+      return this.v;
+    }
+  }
+
+  const hashF = new Flick(1.0, 1.9, 0.0);
+  const charF = letters.slice(1).map((_, i) =>
+    new Flick(2.4 + i * 0.14, i === 3 ? 4.5 : 0.22, 0.12)); // la 'h' es la tuberia fallada
+
+  /* ---------- stone ---------- */
+  let W, H, sc, nxA, nyA, nzA, alb, ready = false;
+  let segX0 = 0, segX1 = 0, segY = 0;
+
+  const hash = (x, y) => {
+    let n = Math.imul(x, 374761393) + Math.imul(y, 668265263);
+    n = Math.imul(n ^ (n >>> 13), 1274126177);
+    return ((n ^ (n >>> 16)) >>> 0) / 4294967295;
+  };
+  const vnoise = (x, y) => {
+    const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+    const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+    const a = hash(xi, yi), b = hash(xi + 1, yi), c = hash(xi, yi + 1), d = hash(xi + 1, yi + 1);
+    return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+  };
+  const fbm = (x, y, o) => {
+    let s = 0, a = 0.5, f = 1, n = 0;
+    for (let i = 0; i < o; i++) { s += a * vnoise(x * f, y * f); n += a; a *= 0.5; f *= 2.03; }
+    return s / n;
+  };
+
+  function build() {
+    const cw = innerWidth, ch = innerHeight;
+    if (!cw || !ch) { setTimeout(build, 150); return; }
+    sc = Math.max(2, cw / 760);
+    W = Math.ceil(cw / sc); H = Math.ceil(ch / sc);
+    stone.width = W; stone.height = H;
+    dust.width = cw; dust.height = ch;
+    const N = W * H;
+
+    // carved text mask
+    const off = document.createElement('canvas');
+    off.width = W; off.height = H;
+    const oc = off.getContext('2d');
+    const portrait = H > W * 1.05;
+    const lines = portrait ? ['#LIBERTAD', 'ALCHAIPA'] : [TEXT_CARVED];
+    oc.font = '900 100px Cinzel, "Times New Roman", serif';
+    let widest = Math.max(...lines.map(l => oc.measureText(l).width));
+    const fs = 100 * (W * 0.9) / widest;
+    oc.font = `900 ${fs}px Cinzel, "Times New Roman", serif`;
+    oc.textAlign = 'center'; oc.textBaseline = 'middle';
+    oc.fillStyle = '#fff';
+    oc.filter = `blur(${Math.max(0.8, fs / 90)}px)`;
+    const cy = H * (portrait ? 0.3 : 0.36);
+    lines.forEach((l, i) => oc.fillText(l, W / 2, cy + (i - (lines.length - 1) / 2) * fs * 1.15));
+    const px = oc.getImageData(0, 0, W, H).data;
+
+    const hgt = new Float32Array(N);
+    alb = new Float32Array(N);
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        const i = y * W + x;
+        const u = x / 38, v = y / 38;
+        const big = fbm(u * 0.5, v * 0.5, 3);
+        const base = fbm(u, v, 5);
+        // grietas: lineas finas donde un ruido cruza 0.5
+        const wx = u * 0.35 + fbm(u * 0.9 + 9, v * 0.9, 2) * 1.4;
+        const wy = v * 0.35 + fbm(u * 0.9, v * 0.9 + 4, 2) * 1.4;
+        const cr1 = Math.pow(1 - Math.abs(2 * vnoise(wx + 3, wy + 7) - 1), 90);
+        const cr2 = Math.pow(1 - Math.abs(2 * vnoise(wx * 2.1 + 11, wy * 2.1 + 2) - 1), 120);
+        const crack = Math.min(1, cr1 + cr2 * 0.7);
+        const grain = hash(x, y);
+        const carve = px[i * 4 + 3] / 255;
+        hgt[i] = base * 7 + big * 5 + grain * 0.8 - crack * 3.5 - carve * 9;
+        let a = 0.34 + 0.5 * fbm(u * 2.2 + 30, v * 2.2, 4) + (grain - 0.5) * 0.16;
+        a *= 1 - crack * 0.75;
+        a *= 1 - carve * 0.42;
+        const dx = (x / W - 0.5), dy = (y / H - 0.5);
+        a *= 1 - Math.min(0.55, (dx * dx + dy * dy) * 1.1);
+        alb[i] = a;
+      }
+    }
+    nxA = new Float32Array(N); nyA = new Float32Array(N); nzA = new Float32Array(N);
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        const i = y * W + x;
+        const xl = x > 0 ? i - 1 : i, xr = x < W - 1 ? i + 1 : i;
+        const yu = y > 0 ? i - W : i, yd = y < H - 1 ? i + W : i;
+        const gx = (hgt[xl] - hgt[xr]) * 0.5, gy = (hgt[yu] - hgt[yd]) * 0.5;
+        const inv = 1 / Math.sqrt(gx * gx + gy * gy + 1);
+        nxA[i] = gx * inv; nyA[i] = gy * inv; nzA[i] = inv;
+      }
+    }
+    sdata = sctx.createImageData(W, H);
+    for (let i = 3; i < sdata.data.length; i += 4) sdata.data[i] = 255;
+    ready = true;
+    requestAnimationFrame(() => stone.classList.add('ready'));
+    setTimeout(() => hint.classList.add('show'), 4800);
+    setTimeout(() => hint.classList.remove('show'), 13000);
+  }
+  let sdata;
+
+  /* ---------- interaction ---------- */
+  const mouse = { x: -999, y: -999, tx: -999, ty: -999, on: 0, tgt: 0 };
+  addEventListener('pointermove', e => {
+    mouse.tx = e.clientX / sc; mouse.ty = e.clientY / sc; mouse.tgt = 1;
+    if (mouse.x < -900) { mouse.x = mouse.tx; mouse.y = mouse.ty; }
+  });
+  addEventListener('pointerleave', () => { mouse.tgt = 0; });
+  addEventListener('pointerdown', () => { hashF.kick(); charF.forEach(f => setTimeout(() => f.kick(), Math.random() * 180)); });
+
+  /* ---------- dust in the light ---------- */
+  const motes = Array.from({ length: 90 }, () => ({
+    x: Math.random(), y: Math.random(), r: 0.6 + Math.random() * 1.8,
+    vx: (Math.random() - 0.5) * 0.004, vy: -0.004 - Math.random() * 0.01, ph: Math.random() * 6.28
+  }));
+
+  /* ---------- main loop ---------- */
+  let last = performance.now(), T = 0;
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+  function frame(now) {
+    const dt = Math.min(0.05, (now - last) / 1000); last = now; T += dt;
+
+    // flicker values
+    const fh = hashF.update(dt);
+    const fc = charF.map(f => f.update(dt));
+    const avg = fc.reduce((a, b) => a + b, 0) / fc.length;
+    const breath = 0.94 + 0.06 * Math.sin(T * 1.7) + (Math.random() - 0.5) * 0.02;
+
+    // paint neon letters
+    const paint = (el, f, glow, hot) => {
+      const k = Math.max(0, f);
+      const c = (o, n) => Math.round(o + (n - o) * k);
+      el.style.color = `rgb(${c(62, hot[0])},${c(64, hot[1])},${c(70, hot[2])})`;
+      el.style.textShadow = k < 0.03 ? 'none' :
+        `0 0 .015em rgba(255,255,255,${k}),0 0 .06em rgba(${glow},${k}),0 0 .16em rgba(${glow},${k * .85}),0 0 .42em rgba(${glow},${k * .6}),0 0 .9em rgba(${glow},${k * .35})`;
+    };
+    paint(letters[0], fh * breath, '255,255,255', [255, 255, 255]);
+    for (let i = 0; i < fc.length; i++) {
+      paint(letters[i + 1], fc[i] * (0.97 + Math.random() * 0.03) * breath, '235,242,255', [255, 255, 255]);
+    }
+
+    if (ready) {
+      // light: a horizontal tube hanging where the neon is
+      const r = neonEl.getBoundingClientRect();
+      const sway = Math.sin(T * 0.7) * 3;
+      segX0 = (r.left + r.width * 0.06) / sc + sway; segX1 = (r.right - r.width * 0.06) / sc + sway;
+      segY = (r.top + r.height * 0.5) / sc;
+
+      const wHash = 0.28, ni = (wHash * fh + (1 - wHash) * avg) * breath;
+      const wr = ni > 0.001 ? (wHash * fh * 1.0) / (wHash * fh + (1 - wHash) * avg + 1e-6) : 0;
+      const NR = 0.93, NG = 0.97, NB = 1.0;
+
+      mouse.x = lerp(mouse.x, mouse.tx, 0.12); mouse.y = lerp(mouse.y, mouse.ty, 0.12);
+      mouse.on = lerp(mouse.on, mouse.tgt, 0.05);
+      const ti = mouse.on * 0.55;
+
+      const d = sdata.data;
+      const LZ = 34, LZ2 = LZ * LZ, ir2 = 1 / (W * W * 0.045);
+      const TZ = 26, TZ2 = TZ * TZ, tir2 = 1 / (W * W * 0.0035);
+      const amb = 0.022;
+      const nI = ni * 3.4;
+      for (let y = 0, i = 0; y < H; y++) {
+        const dyN = segY - y, dyT = mouse.y - y;
+        for (let x = 0; x < W; x++, i++) {
+          const dxN = x < segX0 ? segX0 - x : (x > segX1 ? segX1 - x : 0);
+          const d2 = dxN * dxN + dyN * dyN;
+          const l = 1 / Math.sqrt(d2 + LZ2);
+          let diff = nxA[i] * dxN * l + nyA[i] * dyN * l + nzA[i] * LZ * l;
+          if (diff < 0) diff = 0;
+          const q = 1 + d2 * ir2;
+          let e = nI * diff / (q * q);
+
+          let te = 0;
+          if (ti > 0.01) {
+            const dxT = mouse.x - x, t2 = dxT * dxT + dyT * dyT;
+            const tl = 1 / Math.sqrt(t2 + TZ2);
+            let td = nxA[i] * dxT * tl + nyA[i] * dyT * tl + nzA[i] * TZ * tl;
+            if (td < 0) td = 0;
+            const tq = 1 + t2 * tir2;
+            te = ti * 2.2 * td / (tq * tq);
+          }
+          const a = alb[i];
+          const vr = a * (amb + e * NR + te * 0.55);
+          const vg = a * (amb + e * NG + te * 0.72);
+          const vb = a * (amb * 1.3 + e * NB + te * 1.0);
+          const o = i * 4;
+          d[o] = 255 * vr / (1 + 0.55 * vr);
+          d[o + 1] = 255 * vg / (1 + 0.55 * vg);
+          d[o + 2] = 255 * vb / (1 + 0.55 * vb);
+        }
+      }
+      sctx.putImageData(sdata, 0, 0);
+
+      // dust
+      dctx.clearRect(0, 0, dust.width, dust.height);
+      const cx = (segX0 + segX1) * 0.5 * sc, cyy = segY * sc, rad = innerWidth * 0.34;
+      for (const m of motes) {
+        m.x += m.vx * dt * 3 + Math.sin(T * 0.4 + m.ph) * 0.0002;
+        m.y += m.vy * dt * 3;
+        if (m.y < -0.02) { m.y = 1.02; m.x = Math.random(); }
+        if (m.x < -0.02) m.x = 1.02; if (m.x > 1.02) m.x = -0.02;
+        const px = m.x * innerWidth, py = m.y * innerHeight;
+        const dd = Math.hypot((px - cx) * 0.7, py - cyy) / rad;
+        const al = Math.max(0, 1 - dd) * ni * (0.5 + 0.5 * Math.sin(T * 1.3 + m.ph));
+        if (al < 0.01) continue;
+        dctx.fillStyle = `rgba(235,243,255,${al * 0.7})`;
+        dctx.beginPath(); dctx.arc(px, py, m.r, 0, 6.283); dctx.fill();
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- go ---------- */
+  const start = () => { build(); last = performance.now(); requestAnimationFrame(frame); };
+  Promise.race([
+    Promise.all([document.fonts.load('900 100px Cinzel'), document.fonts.load('100px Neonderthaw')]),
+    new Promise(r => setTimeout(r, 2500))
+  ]).then(start);
+
+  let rz;
+  addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(build, 200); });
+})();
+</script>
+</body>
+</html>
+

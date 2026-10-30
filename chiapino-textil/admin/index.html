@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Panel de stock · Textil Chiapino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/styles.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin">
+
+<header class="adm-bar">
+  <div class="wrap adm-bar-inner">
+    <span class="adm-title">Panel de stock</span>
+    <div class="adm-user">
+      <a class="btn sm line" href="../catalogo.html" target="_blank" rel="noopener">Ver la web ↗</a>
+      <button class="btn sm line" id="logout" type="button" hidden>Salir</button>
+    </div>
+  </div>
+</header>
+
+<!-- ingreso -->
+<section class="auth" id="loginView" hidden>
+  <form class="auth-card" id="loginForm" novalidate>
+    <h1>Ingresar</h1>
+    <p>Entrá con el mail y la contraseña de tu cuenta del panel.</p>
+    <label>Mail<input name="email" type="email" autocomplete="username" required></label>
+    <label>Contraseña<input name="password" type="password" autocomplete="current-password" required></label>
+    <p class="field-error" id="loginError" role="alert"></p>
+    <button class="btn" type="submit" id="loginBtn">Ingresar</button>
+    <button class="link-btn" type="button" id="forgot">Me olvidé la contraseña</button>
+  </form>
+</section>
+
+<!-- elegir contraseña (al aceptar la invitación o al recuperarla) -->
+<section class="auth" id="passView" hidden>
+  <form class="auth-card" id="passForm" novalidate>
+    <h1>Elegí tu contraseña</h1>
+    <p>Con esta contraseña y tu mail vas a entrar al panel desde cualquier celular o compu.</p>
+    <label>Contraseña nueva<input name="password" type="password" autocomplete="new-password" minlength="8" required></label>
+    <small>Mínimo 8 caracteres.</small>
+    <p class="field-error" id="passError" role="alert"></p>
+    <button class="btn" type="submit">Guardar y entrar</button>
+  </form>
+</section>
+
+<!-- cuenta sin permiso -->
+<section class="auth" id="deniedView" hidden>
+  <div class="auth-card">
+    <h1>Sin permiso</h1>
+    <p>La cuenta <b id="deniedEmail"></b> no puede editar el stock. Pedile a quien armó el sitio que agregue este mail como administrador.</p>
+    <button class="btn line" type="button" id="deniedLogout">Ingresar con otra cuenta</button>
+  </div>
+</section>
+
+<main class="wrap" id="panelView" hidden>
+  <section class="summary" aria-label="Resumen del stock">
+    <button type="button" data-estado=""><b id="nTotal">0</b><span>productos</span></button>
+    <button type="button" class="hay" data-estado="hay"><b id="nHay">0</b><span>en stock</span></button>
+    <button type="button" class="pocas" data-estado="pocas"><b id="nPocas">0</b><span>últimas unidades</span></button>
+    <button type="button" class="sin" data-estado="sin"><b id="nSin">0</b><span>sin stock</span></button>
+  </section>
+
+  <div class="adm-tools">
+    <input class="search" id="q" type="search" placeholder="Buscar producto" aria-label="Buscar producto">
+    <select class="search" id="fCat" aria-label="Filtrar por categoría"></select>
+    <select class="search" id="fEstado" aria-label="Filtrar por stock">
+      <option value="">Todo el stock</option>
+      <option value="hay">En stock</option>
+      <option value="pocas">Últimas unidades</option>
+      <option value="sin">Sin stock</option>
+    </select>
+    <button class="btn sm" id="add" type="button">
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Agregar producto
+    </button>
+  </div>
+
+  <div class="table-wrap">
+    <table class="stock">
+      <thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Estado</th><th>En la web</th><th><span class="sr">Acciones</span></th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+  <details class="backup">
+    <summary>Copia de seguridad</summary>
+    <p>El stock queda guardado online. Igual podés bajar una copia de vez en cuando; «Cargar una copia» suma o actualiza los productos de ese archivo, no borra los que no estén.</p>
+    <div class="btn-row">
+      <button class="btn sm line" id="export" type="button">Descargar copia</button>
+      <label class="btn sm line">Cargar una copia<input type="file" id="import" accept="application/json,.json" hidden></label>
+    </div>
+  </details>
+</main>
+
+<dialog id="dlg" class="dlg" aria-labelledby="dlgTitle">
+  <form method="dialog" id="form" novalidate>
+    <h2 id="dlgTitle">Nuevo producto</h2>
+
+    <div class="photo-field">
+      <div class="photo-drop" id="photoDrop">
+        <img id="photoPreview" alt="">
+        <p class="photo-empty" id="photoEmpty">
+          <svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+          <span>Todavía no tiene foto</span>
+          <small class="only-desk">Podés arrastrarla acá</small>
+        </p>
+        <p class="photo-busy" id="photoBusy" hidden>Preparando la foto…</p>
+      </div>
+      <div class="photo-actions">
+        <label class="btn sm only-touch">Sacar foto<input type="file" id="fotoCamara" accept="image/*" capture="environment" hidden></label>
+        <label class="btn sm line"><span class="only-touch">Elegir de la galería</span><span class="only-desk">Elegir foto de la compu</span><input type="file" id="fotoArchivo" accept="image/*" hidden></label>
+        <button class="icon-btn danger" type="button" id="fotoQuitar" hidden>Quitar foto</button>
+      </div>
+      <p class="field-error" id="photoError" role="alert"></p>
+    </div>
+
+    <label>Nombre<input name="nombre" autocomplete="off" placeholder="Ej.: Brother BM2800"></label>
+    <p class="field-error" id="nameError" role="alert"></p>
+    <div class="two">
+      <label>Marca <small>(opcional)</small><input name="marca" autocomplete="off" placeholder="Ej.: Brother"></label>
+      <label>Categoría<select name="categoria" id="formCat"></select></label>
+    </div>
+    <div class="two">
+      <label>Precio en pesos <small>(opcional)</small>
+        <span class="money"><span aria-hidden="true">$</span><input name="precio" inputmode="numeric" autocomplete="off" placeholder="Ej.: 450.000" aria-describedby="precioHint"></span>
+        <small id="precioHint">Si lo dejás vacío, la web dice «Consultar precio».</small>
+      </label>
+      <div class="stock-field">
+        <span class="label" id="stockLabel">Unidades en stock</span>
+        <div class="stepper big" role="group" aria-labelledby="stockLabel">
+          <button type="button" data-fstep="-1" aria-label="Restar una unidad">−</button>
+          <input name="stock" type="number" min="0" step="1" inputmode="numeric" aria-labelledby="stockLabel">
+          <button type="button" data-fstep="1" aria-label="Sumar una unidad">+</button>
+        </div>
+      </div>
+    </div>
+    <label>Descripción corta <small>(opcional)</small><textarea name="desc" rows="2" placeholder="Ej.: Familiar, 27 puntadas, con accesorios."></textarea></label>
+    <div class="btn-row dlg-actions">
+      <button class="btn sm line" type="button" id="cancel">Cancelar</button>
+      <button class="btn sm" type="submit" id="saveBtn">Guardar producto</button>
+    </div>
+  </form>
+</dialog>
+
+<p class="toast" id="toast" role="status" aria-live="polite"></p>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"></script>
+<script src="../js/store.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
