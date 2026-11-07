@@ -1,0 +1,8 @@
+/es                 /catalogo   301
+/es/contactenos     /contacto   301
+/es/contact-us      /contacto   301
+/es/tiendas         /contacto   301
+/es/stores          /contacto   301
+/es/*               /catalogo   301
+/index.php          /           301
+/1_ag_0_sitemap.xml /sitemap.xml 301

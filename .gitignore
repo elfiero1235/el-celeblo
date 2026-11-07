@@ -16,3 +16,4 @@ aniversario/
 .vercel/
 node_modules/
 dist/
+.wrangler/

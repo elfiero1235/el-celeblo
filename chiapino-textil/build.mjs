@@ -2,7 +2,7 @@
 // Pages toma las funciones de functions/ aparte, así que /api/chat sigue andando.
 import { cpSync, rmSync, mkdirSync } from 'node:fs';
 
-const PUBLICO = ['index.html', 'catalogo.html', 'contacto.html', 'servicio-tecnico.html', 'css', 'js', 'img', 'admin'];
+const PUBLICO = ['index.html', 'catalogo.html', 'contacto.html', 'servicio-tecnico.html', '404.html', 'robots.txt', 'sitemap.xml', '_redirects', 'css', 'js', 'img', 'admin'];
 rmSync('dist', { recursive: true, force: true });
 mkdirSync('dist');
 for (const p of PUBLICO) cpSync(p, `dist/${p}`, { recursive: true });
