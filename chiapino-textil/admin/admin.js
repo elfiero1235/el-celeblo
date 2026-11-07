@@ -42,6 +42,7 @@ async function enter(session) {
     return;
   }
   show('panelView');
+  window.cargarBot?.(); // sección "Lo que sabe el bot" (bot.js)
   await reload();
 }
 

@@ -149,4 +149,6 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden && lo
 
 renderChips();
 render();
-refresh(false);
+// catalogo.html?ver=<id> (lo usa el chat): al cargar el stock abre la ficha de esa máquina
+const verId = new URLSearchParams(location.search).get('ver');
+refresh(false).then(() => { if (verId) openFicha(verId); });

@@ -1,0 +1,79 @@
+/* Chat de atención: botón flotante (arriba del de WhatsApp) y ventana de conversación. Usa los colores de styles.css. */
+.cw-launch{position:fixed;right:20px;bottom:92px;z-index:61;display:inline-flex;align-items:center;gap:10px;height:58px;padding:0 22px 0 18px;border:0;border-radius:999px;background:var(--blue);color:var(--white);font:700 1rem/1 var(--body);cursor:pointer;box-shadow:0 14px 28px -12px rgba(16,26,51,.6);transition:transform .5s var(--ease),background .3s}
+.cw-launch:hover{background:var(--blue-deep);transform:translateY(-3px)}
+.cw-launch svg{flex:none}
+.cw-launch .cw-dot{position:absolute;top:8px;left:38px;width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px var(--blue)}
+.cw-open .cw-launch{transform:scale(.6);opacity:0;pointer-events:none}
+
+.cw-panel{position:fixed;right:20px;bottom:20px;z-index:70;display:flex;flex-direction:column;width:min(390px,calc(100vw - 40px));height:min(620px,calc(100dvh - 40px));background:var(--paper);border-radius:var(--radius);box-shadow:0 30px 60px -20px rgba(16,26,51,.55),0 0 0 1px var(--line);overflow:hidden;transform-origin:100% 100%;opacity:0;transform:translateY(16px) scale(.94);pointer-events:none;visibility:hidden;transition:opacity .35s var(--ease),transform .5s var(--ease),visibility 0s .5s}
+.cw-open .cw-panel{opacity:1;transform:none;pointer-events:auto;visibility:visible;transition:opacity .35s var(--ease),transform .5s var(--ease)}
+
+.cw-head{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 18px;background:var(--ink);color:var(--white)}
+.cw-head b{display:block;font-family:var(--display);font-weight:800;font-stretch:80%;font-size:1.15rem;letter-spacing:-.01em}
+.cw-head small{display:block;font-size:.8rem;opacity:.75}
+.cw-head .cw-avatar{flex:none;width:40px;height:40px;border-radius:50%;background:var(--red);display:grid;place-items:center;font:900 1rem var(--display)}
+.cw-close{margin-left:auto;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.1);color:inherit;cursor:pointer;display:grid;place-items:center;transition:background .3s}
+.cw-close:hover{background:rgba(255,255,255,.2)}
+
+.cw-log{flex:1;overflow-y:auto;overscroll-behavior:contain;padding:18px 14px 8px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+.cw-msg{max-width:86%;padding:10px 14px;border-radius:18px;font-size:.95rem;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;animation:cw-in .4s var(--ease) both}
+.cw-bot{align-self:flex-start;background:var(--white);border-bottom-left-radius:6px;box-shadow:0 1px 0 var(--line)}
+.cw-user{align-self:flex-end;background:var(--blue);color:var(--white);border-bottom-right-radius:6px}
+.cw-err{align-self:center;background:var(--no-bg);color:var(--no);font-size:.85rem;border-radius:12px}
+.cw-wa{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border-radius:999px;background:#25d366;color:#fff;font-weight:700;font-size:.92rem;animation:cw-in .4s .1s var(--ease) both;transition:transform .4s var(--ease)}
+.cw-wa:hover{transform:translateY(-2px)}
+/* tarjetas de máquinas recomendadas */
+.cw-cards{align-self:stretch;display:flex;flex-direction:column;gap:8px;margin:2px 0 4px}
+.cw-card{display:flex;gap:12px;padding:10px;background:var(--white);border:1px solid var(--line);border-radius:16px;animation:cw-in .45s var(--ease) both;transition:border-color .25s,transform .4s var(--ease),box-shadow .4s var(--ease)}
+.cw-card:nth-child(2){animation-delay:.08s}.cw-card:nth-child(3){animation-delay:.16s}
+.cw-card:hover{border-color:var(--ink);transform:translateY(-2px);box-shadow:0 14px 24px -18px rgba(16,26,51,.55)}
+.cw-thumb{flex:none;width:76px;height:76px;border-radius:12px;overflow:hidden;background:var(--paper-2);display:grid;place-items:center;color:var(--blue)}
+.cw-thumb img{width:100%;height:100%;object-fit:cover}
+.cw-card.is-sin .cw-thumb img{filter:grayscale(.7);opacity:.8}
+.cw-info{min-width:0;flex:1;display:flex;flex-direction:column;gap:3px}
+.cw-info small{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+.cw-info b{font-family:var(--display);font-weight:800;font-stretch:85%;font-size:1.02rem;line-height:1.1;letter-spacing:-.01em}
+.cw-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-top:2px}
+.cw-price{font-family:var(--display);font-weight:800;font-size:.98rem}
+.cw-row .badge{padding:3px 9px;font-size:.72rem}
+.cw-actions{display:flex;gap:6px;margin-top:6px}
+.cw-ask,.cw-see{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:36px;padding:6px 12px;border-radius:999px;font-weight:700;font-size:.82rem;transition:background .25s,border-color .25s}
+.cw-ask{background:#25d366;color:#fff}
+.cw-ask:hover{background:#1ebe5b}
+.cw-ask svg{width:15px;height:15px}
+.cw-see{border:1px solid var(--line);color:var(--ink)}
+.cw-see:hover{border-color:var(--ink)}
+
+.cw-typing{align-self:flex-start;display:flex;gap:5px;padding:14px 16px;background:var(--white);border-radius:18px;border-bottom-left-radius:6px}
+.cw-typing i{width:7px;height:7px;border-radius:50%;background:var(--ink-soft);animation:cw-dot 1.1s infinite ease-in-out}
+.cw-typing i:nth-child(2){animation-delay:.15s}.cw-typing i:nth-child(3){animation-delay:.3s}
+
+.cw-chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px}
+.cw-chips button{min-height:36px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--white);color:var(--ink);font:600 .85rem var(--body);cursor:pointer;transition:background .3s,border-color .3s}
+.cw-chips button:hover{border-color:var(--blue);background:var(--paper-2)}
+
+.cw-form{display:flex;gap:8px;align-items:flex-end;padding:10px 12px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--white)}
+.cw-form textarea{flex:1;min-height:44px;max-height:120px;resize:none;overflow-y:hidden;padding:11px 14px;border-radius:22px;border:1px solid var(--line);background:var(--paper);font:16px/1.35 var(--body);color:var(--ink)}
+.cw-form textarea:focus{outline:2px solid var(--blue);outline-offset:0}
+.cw-send{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:var(--red);color:var(--white);cursor:pointer;display:grid;place-items:center;transition:background .3s,transform .4s var(--ease)}
+.cw-send:hover{background:var(--red-deep)}
+.cw-send:disabled{opacity:.5;cursor:default}
+.cw-count{position:absolute;right:70px;bottom:calc(58px + env(safe-area-inset-bottom));font-size:.72rem;color:var(--ink-soft)}
+.cw-note{padding:0 14px 8px;font-size:.72rem;color:var(--ink-soft);text-align:center}
+
+@keyframes cw-in{from{opacity:0;transform:translateY(8px)}}
+@keyframes cw-dot{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-5px);opacity:1}}
+
+/* celular: ocupa toda la pantalla */
+@media (max-width:560px){
+  .cw-launch{right:16px;bottom:88px;padding:0 18px 0 16px}
+  .cw-launch span{display:none}
+  .cw-launch{width:58px;padding:0;justify-content:center}
+  .cw-launch .cw-dot{left:auto;right:10px}
+  .cw-panel{inset:0;width:100%;height:100dvh;border-radius:0;transform:translateY(24px)}
+  .cw-open .wa{opacity:0;pointer-events:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .cw-panel,.cw-launch,.cw-msg,.cw-wa,.cw-card{transition-duration:.01ms;animation:none}
+  .cw-log{scroll-behavior:auto}
+}

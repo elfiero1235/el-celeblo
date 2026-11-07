@@ -1,2 +1,18 @@
 *.zip
 .claude/
+
+# Leo
+leo/.env
+leo/vista-previa/
+leo/prospectos/
+
+# página personal (fotos privadas)
+aniversario/
+
+# secretos y artefactos (chat de Chiapino y otros)
+.env
+.env.*
+!.env.example
+.vercel/
+node_modules/
+dist/

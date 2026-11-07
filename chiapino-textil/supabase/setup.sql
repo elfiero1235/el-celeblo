@@ -106,3 +106,59 @@ on conflict (id) do nothing;
 -- ---------- quién administra ----------
 -- Cambiá el mail por el tuyo (para probar) y después agregá el del dueño. Pueden ser varios.
 insert into public.admins (email) values ('genitachia@gmail.com') on conflict do nothing;
+
+-- ---------- lo que sabe el bot ----------
+-- Info que el dueño le enseña al chat desde el panel (envíos, pagos, cambios, fallas...). La lee el chat.
+create table if not exists public.bot_info (
+  id          bigint generated always as identity primary key,
+  tema        text not null check (length(tema) between 1 and 120),
+  texto       text not null check (length(texto) between 1 and 2000),
+  creado      timestamptz not null default now(),
+  actualizado timestamptz not null default now()
+);
+drop trigger if exists bot_info_actualizado on public.bot_info;
+create trigger bot_info_actualizado before update on public.bot_info
+  for each row execute function public.tocar_actualizado();
+
+alter table public.bot_info enable row level security;
+drop policy if exists "todos leen" on public.bot_info;
+create policy "todos leen" on public.bot_info for select to anon, authenticated using (true);
+drop policy if exists "admin agrega" on public.bot_info;
+create policy "admin agrega" on public.bot_info for insert to authenticated with check (public.es_admin());
+drop policy if exists "admin edita" on public.bot_info;
+create policy "admin edita" on public.bot_info for update to authenticated using (public.es_admin()) with check (public.es_admin());
+drop policy if exists "admin borra" on public.bot_info;
+create policy "admin borra" on public.bot_info for delete to authenticated using (public.es_admin());
+grant select on public.bot_info to anon, authenticated;
+grant insert, update, delete on public.bot_info to authenticated;
+
+-- Preguntas que el bot no supo responder. Sólo las ve el admin; el chat las anota con anotar_pregunta().
+create table if not exists public.bot_preguntas (
+  id       bigint generated always as identity primary key,
+  pregunta text not null,
+  veces    integer not null default 1,
+  creado   timestamptz not null default now(),
+  ultima   timestamptz not null default now()
+);
+alter table public.bot_preguntas enable row level security;
+drop policy if exists "admin lee" on public.bot_preguntas;
+create policy "admin lee" on public.bot_preguntas for select to authenticated using (public.es_admin());
+drop policy if exists "admin borra" on public.bot_preguntas;
+create policy "admin borra" on public.bot_preguntas for delete to authenticated using (public.es_admin());
+grant select, delete on public.bot_preguntas to authenticated;
+
+-- Con topes (200 en la lista, 30 nuevas por hora) para que nadie la llene de basura.
+create or replace function public.anotar_pregunta(p text) returns void
+language plpgsql security definer set search_path = public as $$
+declare
+  q text := left(regexp_replace(trim(coalesce(p, '')), '\s+', ' ', 'g'), 200);
+begin
+  if length(q) < 4 then return; end if;
+  update bot_preguntas set veces = veces + 1, ultima = now() where lower(pregunta) = lower(q);
+  if found then return; end if;
+  if (select count(*) from bot_preguntas) >= 200 then return; end if;
+  if (select count(*) from bot_preguntas where creado > now() - interval '1 hour') >= 30 then return; end if;
+  insert into bot_preguntas (pregunta) values (q);
+end $$;
+revoke all on function public.anotar_pregunta(text) from public;
+grant execute on function public.anotar_pregunta(text) to anon, authenticated;

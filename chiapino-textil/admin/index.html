@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Panel de stock · Textil Chiapino</title>
+<title>Panel · Textil Chiapino</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
 
 <header class="adm-bar">
   <div class="wrap adm-bar-inner">
-    <span class="adm-title">Panel de stock</span>
+    <span class="adm-title">Panel Chiapino</span>
     <div class="adm-user">
       <a class="btn sm line" href="../catalogo.html" target="_blank" rel="noopener">Ver la web ↗</a>
       <button class="btn sm line" id="logout" type="button" hidden>Salir</button>
@@ -58,6 +58,12 @@
 </section>
 
 <main class="wrap" id="panelView" hidden>
+  <nav class="tabs" role="tablist" aria-label="Secciones del panel">
+    <button type="button" role="tab" id="tabStockBtn" aria-controls="tabStock" aria-selected="true">Stock</button>
+    <button type="button" role="tab" id="tabBotBtn" aria-controls="tabBot" aria-selected="false">Lo que sabe el bot <b class="tab-count" id="nPreg" hidden>0</b></button>
+  </nav>
+
+  <div id="tabStock" role="tabpanel" aria-labelledby="tabStockBtn">
   <section class="summary" aria-label="Resumen del stock">
     <button type="button" data-estado=""><b id="nTotal">0</b><span>productos</span></button>
     <button type="button" class="hay" data-estado="hay"><b id="nHay">0</b><span>en stock</span></button>
@@ -95,7 +101,48 @@
       <label class="btn sm line">Cargar una copia<input type="file" id="import" accept="application/json,.json" hidden></label>
     </div>
   </details>
+  </div>
+
+  <!-- lo que sabe el bot -->
+  <div id="tabBot" role="tabpanel" aria-labelledby="tabBotBtn" hidden>
+    <p class="bot-intro">El chat de la web responde con el stock de la pestaña «Stock» y con lo que escribas acá. No aprende solo: si algo no está cargado, deriva al cliente a WhatsApp y anota la pregunta abajo para que la respondas una sola vez. Los cambios se notan en el chat en un minuto.</p>
+
+    <section class="bot-block">
+      <div class="bot-head">
+        <h2>Preguntas que no supo responder</h2>
+      </div>
+      <ul class="q-list" id="qList"></ul>
+    </section>
+
+    <section class="bot-block">
+      <div class="bot-head">
+        <h2>Lo que sabe</h2>
+        <button class="btn sm" id="addInfo" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+          Agregar dato
+        </button>
+      </div>
+      <div class="info-list" id="infoList"></div>
+    </section>
+  </div>
 </main>
+
+<dialog id="dlgInfo" class="dlg" aria-labelledby="infoTitle">
+  <form method="dialog" id="infoForm" novalidate>
+    <h2 id="infoTitle">Nuevo dato para el bot</h2>
+    <p class="dlg-q" id="infoFrom" hidden></p>
+    <label>Tema<input name="tema" maxlength="120" autocomplete="off" placeholder="Ej.: Envíos"></label>
+    <label>Lo que tiene que saber el bot
+      <textarea name="texto" rows="6" maxlength="2000" placeholder="Ej.: Hacemos envíos a todo el país por Correo Argentino. El costo depende del destino y se calcula al hacer el pedido por WhatsApp. En Paraná entregamos sin cargo."></textarea>
+      <small>Escribilo como se lo explicarías a un empleado nuevo. El bot lo usa tal cual, sin agregar nada.</small>
+    </label>
+    <p class="field-error" id="infoError" role="alert"></p>
+    <div class="btn-row dlg-actions">
+      <button class="btn sm line" type="button" id="infoCancel">Cancelar</button>
+      <button class="btn sm" type="submit" id="infoSave">Guardar</button>
+    </div>
+  </form>
+</dialog>
 
 <dialog id="dlg" class="dlg" aria-labelledby="dlgTitle">
   <form method="dialog" id="form" novalidate>
@@ -152,5 +199,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"></script>
 <script src="../js/store.js"></script>
 <script src="admin.js"></script>
+<script src="bot.js"></script>
 </body>
 </html>
