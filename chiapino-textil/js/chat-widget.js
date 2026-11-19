@@ -2,7 +2,7 @@
 (() => {
   const MAX = 500;
   const KEY = 'chiapino-chat';
-  const SALUDO = '¡Hola! Soy el asistente de Textil Chiapino. Preguntame por máquinas, hilos, stock, precios, horarios o el servicio técnico.';
+  const SALUDO = '¡Hola! Soy Chapitex, el asistente de Textil Chiapino. Preguntame por máquinas, hilos, stock, precios, horarios o el servicio técnico.';
   const CHIPS = ['¿Qué horarios tienen?', '¿Tienen overlock en stock?', 'Mi máquina corta el hilo', 'Quiero comprar una máquina'];
 
   let historial = [];
@@ -10,17 +10,16 @@
   const guardar = () => { try { sessionStorage.setItem(KEY, JSON.stringify(historial.slice(-12))); } catch {} };
 
   const icon = (d, s = 24) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
-  const ICON_CHAT = icon('<path fill="currentColor" d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 4v-4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/>');
   const ICON_X = icon('<path stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/>', 20);
   const ICON_SEND = icon('<path fill="currentColor" d="M3 20.5 21 12 3 3.5 3 10l12 2-12 2z"/>', 20);
   const ICON_WA = '<svg width="18" height="18" aria-hidden="true"><use href="#wa"/></svg>';
 
   document.body.insertAdjacentHTML('beforeend', `
-    <button class="cw-launch" type="button" aria-expanded="false" aria-controls="cw-panel">${ICON_CHAT}<span>Preguntanos</span><i class="cw-dot" aria-hidden="true"></i></button>
+    <button class="cw-launch" type="button" aria-expanded="false" aria-controls="cw-panel"><img class="cw-face" src="/img/chapitex.svg" alt="" width="52" height="52"><span>Preguntale a Chapitex</span></button>
     <section class="cw-panel" id="cw-panel" role="dialog" aria-modal="false" aria-labelledby="cw-title">
       <header class="cw-head">
-        <span class="cw-avatar" aria-hidden="true">C</span>
-        <div><b id="cw-title">Textil Chiapino</b><small>Asistente virtual · te derivamos a WhatsApp para comprar</small></div>
+        <img class="cw-avatar" src="/img/chapitex-cara.svg" alt="" width="40" height="40">
+        <div><b id="cw-title">Chapitex</b><small>Asistente de Textil Chiapino · para comprar te pasamos a WhatsApp</small></div>
         <button class="cw-close" type="button" aria-label="Cerrar chat">${ICON_X}</button>
       </header>
       <div class="cw-log" role="log" aria-live="polite"></div>

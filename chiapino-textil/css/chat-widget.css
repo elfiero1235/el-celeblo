@@ -1,8 +1,8 @@
 /* Chat de atención: botón flotante (arriba del de WhatsApp) y ventana de conversación. Usa los colores de styles.css. */
-.cw-launch{position:fixed;right:20px;bottom:92px;z-index:61;display:inline-flex;align-items:center;gap:10px;height:58px;padding:0 22px 0 18px;border:0;border-radius:999px;background:var(--blue);color:var(--white);font:700 1rem/1 var(--body);cursor:pointer;box-shadow:0 14px 28px -12px rgba(16,26,51,.6);transition:transform .5s var(--ease),background .3s}
+.cw-launch{position:fixed;right:20px;bottom:92px;z-index:61;display:inline-flex;align-items:center;gap:10px;height:62px;padding:0 22px 0 5px;border:0;border-radius:999px;background:var(--ink);color:var(--white);font:700 1rem/1 var(--body);cursor:pointer;box-shadow:0 14px 28px -12px rgba(16,26,51,.6);transition:transform .5s var(--ease),background .3s}
 .cw-launch:hover{background:var(--blue-deep);transform:translateY(-3px)}
-.cw-launch svg{flex:none}
-.cw-launch .cw-dot{position:absolute;top:8px;left:38px;width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px var(--blue)}
+.cw-launch .cw-face{flex:none;width:52px;height:52px;transition:transform .5s var(--ease)}
+.cw-launch:hover .cw-face{transform:rotate(-8deg) scale(1.06)}
 .cw-open .cw-launch{transform:scale(.6);opacity:0;pointer-events:none}
 
 .cw-panel{position:fixed;right:20px;bottom:20px;z-index:70;display:flex;flex-direction:column;width:min(390px,calc(100vw - 40px));height:min(620px,calc(100dvh - 40px));background:var(--paper);border-radius:var(--radius);box-shadow:0 30px 60px -20px rgba(16,26,51,.55),0 0 0 1px var(--line);overflow:hidden;transform-origin:100% 100%;opacity:0;transform:translateY(16px) scale(.94);pointer-events:none;visibility:hidden;transition:opacity .35s var(--ease),transform .5s var(--ease),visibility 0s .5s}
@@ -11,7 +11,7 @@
 .cw-head{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 18px;background:var(--ink);color:var(--white)}
 .cw-head b{display:block;font-family:var(--display);font-weight:800;font-stretch:80%;font-size:1.15rem;letter-spacing:-.01em}
 .cw-head small{display:block;font-size:.8rem;opacity:.75}
-.cw-head .cw-avatar{flex:none;width:40px;height:40px;border-radius:50%;background:var(--red);display:grid;place-items:center;font:900 1rem var(--display)}
+.cw-head .cw-avatar{flex:none;width:40px;height:40px}
 .cw-close{margin-left:auto;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.1);color:inherit;cursor:pointer;display:grid;place-items:center;transition:background .3s}
 .cw-close:hover{background:rgba(255,255,255,.2)}
 
@@ -66,10 +66,10 @@
 
 /* celular: ocupa toda la pantalla */
 @media (max-width:560px){
-  .cw-launch{right:16px;bottom:88px;padding:0 18px 0 16px}
+  .cw-launch{right:12px;bottom:84px;width:66px;height:66px;padding:0;justify-content:center;background:none;box-shadow:none}
+  .cw-launch:hover{background:none}
   .cw-launch span{display:none}
-  .cw-launch{width:58px;padding:0;justify-content:center}
-  .cw-launch .cw-dot{left:auto;right:10px}
+  .cw-launch .cw-face{width:66px;height:66px;filter:drop-shadow(0 10px 14px rgba(16,26,51,.4))}
   .cw-panel{inset:0;width:100%;height:100dvh;border-radius:0;transform:translateY(24px)}
   .cw-open .wa{opacity:0;pointer-events:none}
 }
