@@ -4,7 +4,9 @@
 
 /* ---------- configuración ---------- */
 // si el primer modelo llega a su límite gratis, se prueba con el siguiente; si se agotan todos, se deriva a WhatsApp
-const MODELOS = 'gemini-3.5-flash-lite,gemini-3.8-flash'; // primero el rápido: el 3.8 suele estar saturado en el plan gratis
+// En el plan gratis Google corta seguido con 503 "high demand": cada modelo se reintenta una vez y después se pasa al siguiente.
+const MODELOS = 'gemini-3.5-flash-lite,gemini-3.1-flash-lite,gemini-3.8-flash';
+const PLAZO_TOTAL = 24_000; // ms: pasado esto se deriva a WhatsApp en vez de dejar al cliente esperando
 const WHATSAPP = '5493434533545';                       // número fijo: el modelo nunca elige a dónde se deriva
 const SUPABASE_URL = 'https://jsigyajnakxlgiwdbpxq.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_Ea2JlVYaT6NbTPBiKJ-74A_EZ3Etr4H'; // publicable (la misma que usa la web)
@@ -256,28 +258,37 @@ async function gemini(env, system, messages) {
     contents: messages.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
     generationConfig: { maxOutputTokens: 1024, thinkingConfig: { thinkingLevel: 'LOW' } }
   });
-  let ultimo = 'sin modelos';
-  for (const modelo of modelos) {
+  const fallas = [];
+  const inicio = Date.now();
+  const resta = () => PLAZO_TOTAL - (Date.now() - inicio);
+  const intentos = modelos.flatMap(m => [m, m]); // cada modelo dos veces seguidas
+  for (let i = 0; i < intentos.length; i++) {
+    const modelo = intentos[i];
+    if (i % 2 === 1 && fallas.at(-1)?.saltear) continue; // el modelo no existe o no anda: no se reintenta
+    if (resta() < 2500) break;
+    if (i % 2 === 1) await new Promise(r => setTimeout(r, 500 + Math.random() * 700)); // espera corta antes del reintento
     let res;
     try {
       res = await fetch(`${base}/v1beta/models/${encodeURIComponent(modelo)}:generateContent`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-goog-api-key': env.GEMINI_API_KEY },
         body: cuerpo,
-        signal: AbortSignal.timeout(12_000) // un modelo saturado a veces no contesta nunca: se corta y se prueba el siguiente
+        signal: AbortSignal.timeout(Math.min(12_000, resta())) // un modelo saturado a veces no contesta nunca
       });
-    } catch (e) { ultimo = `${modelo}: ${e.name}`; continue; }
-    if (res.status === 429 || res.status >= 500) { ultimo = `${modelo}: ${res.status}`; continue; }
-    if (!res.ok) throw new Error(`${modelo}: ${res.status} ${(await res.text()).slice(0, 300)}`);
+    } catch (e) { fallas.push({ txt: `${modelo}: ${e.name}`, saltear: e.name === 'TimeoutError' }); continue; }
+    if (res.status === 429 || res.status >= 500) { fallas.push({ txt: `${modelo}: ${res.status}` }); continue; }
+    // modelo dado de baja o pedido rechazado: se anota y se prueba el siguiente, el chat no se cae
+    if (!res.ok) { fallas.push({ txt: `${modelo}: ${res.status} ${(await res.text()).slice(0, 200)}`, saltear: true }); continue; }
     const data = await res.json();
     if (data.promptFeedback?.blockReason) return { bloqueado: true };
     const cand = data.candidates?.[0];
     if (cand?.finishReason && /SAFETY|PROHIBITED|BLOCKLIST|SPII/.test(cand.finishReason)) return { bloqueado: true };
     const texto = (cand?.content?.parts || []).filter(p => typeof p.text === 'string' && !p.thought).map(p => p.text).join('').trim();
-    if (!texto) { ultimo = `${modelo}: vacío (${cand?.finishReason || 'sin candidato'})`; console.error('chat:', ultimo); continue; } // probá el siguiente
+    if (!texto) { fallas.push({ txt: `${modelo}: vacío (${cand?.finishReason || 'sin candidato'})` }); continue; }
+    if (fallas.length) console.warn('chat: respondió después de', fallas.map(f => f.txt).join(' | '));
     return { texto };
   }
-  return { agotado: true, detalle: ultimo };
+  return { agotado: true, detalle: fallas.map(f => f.txt).join(' | ') || 'sin modelos' };
 }
 
 const DERIVAR = () => wa('Hola! Quiero hacer una consulta.');
